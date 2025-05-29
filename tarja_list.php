@@ -6,23 +6,25 @@ include 'navbar.php';
 include 'db.php';
 ?>
 
-<h2 class="mb-4">Consulta de Tarjas</h2>
+<div class="d-flex justify-content-center align-items-center mb-3">
+    <h2 style="font-weight: bold;color:white;">Tarjas</h2>
+</div>
 
 <form class="row g-3 mb-4" method="GET">
     <div class="col-md-3">
-        <label class="form-label">Fecha</label>
+        <label class="form-label" style="font-weight: bold;color:white;">Fecha</label>
         <input type="date" name="fecha" class="form-control" value="<?= $_GET['fecha'] ?? '' ?>">
     </div>
     <div class="col-md-3">
-        <label class="form-label">Programa</label>
+        <label class="form-label" style="font-weight: bold;color:white;">Programa</label>
         <input type="text" name="programa" class="form-control" value="<?= $_GET['programa'] ?? '' ?>">
     </div>
     <div class="col-md-3">
-        <label class="form-label">Área</label>
+        <label class="form-label" style="font-weight: bold;color:white;">Área</label>
         <input type="text" name="area" class="form-control" value="<?= $_GET['area'] ?? '' ?>">
     </div>
     <div class="col-md-3 align-self-end">
-        <button class="btn btn-primary w-100">Buscar</button>
+        <button class="btn btn-green">Buscar</button>
     </div>
 </form>
 

@@ -6,8 +6,12 @@ include 'navbar.php';
 include 'db.php';
 ?>
 
-  <h2>Lista de Empleados</h2>
-  <a href="empleado_form.php" class="btn btn-primary mb-3">+ Agregar Empleado</a>
+  <div class="d-flex justify-content-center align-items-center mb-3">
+    <h2 style="font-weight: bold;color:white;">Empleados</h2>
+  </div>
+  <div class="d-flex justify-content-end align-items-center mb-3">
+    <a href="empleado_form.php" class="btn btn-green">+ Agregar Empleado</a>
+  </div>
   <div class="table-responsive">
   <table class="table table-bordered">
     <thead class="table-light">

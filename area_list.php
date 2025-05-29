@@ -6,8 +6,12 @@ include 'navbar.php';
 include 'db.php';
 ?>
 
-  <h2>Lista de Áreas</h2>
-  <a href="area_form.php" class="btn btn-primary mb-3">+ Agregar Área</a>
+  <div class="d-flex justify-content-center align-items-center mb-3">
+    <h2 style="font-weight: bold;color:white;">Áreas</h2>
+  </div>
+  <div class="d-flex justify-content-end align-items-center mb-3">
+    <a href="area_form.php" class="btn btn-green">+ Agregar Área</a>
+  </div>
   <div class="table-responsive">
   <table class="table table-bordered">
     <thead class="table-light">

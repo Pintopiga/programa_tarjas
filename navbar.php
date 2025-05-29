@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['usuario'])) header("Location: login.php");
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-cloud px-3">
   <a class="navbar-brand" href="#">Tarjas</a>
 
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
@@ -19,6 +19,7 @@ if (!isset($_SESSION['usuario'])) header("Location: login.php");
       <li class="nav-item"><a class="nav-link" href="labor_list.php">Labores</a></li>
       <li class="nav-item"><a class="nav-link" href="empleado_list.php">Empleados</a></li>
       <li class="nav-item"><a class="nav-link" href="tarja_list.php">Tarjas</a></li>
+      <li class="nav-item"><a class="nav-link" href="reporte.php">Reporte</a></li>
       <li class="nav-item"><a class="nav-link" href="parametro_list.php">Parámetros</a></li>
     </ul>
 
