@@ -6,46 +6,49 @@ include 'db.php';
 ?>
 
 <div class="container mt-4">
-  <h2 class="mb-3" style="color: #4FBA00; font-weight: bold;">Reporte de Tarjas</h2>
+  <h2 class="mb-3" style="font-weight: bold;color:white;">Reporte de Tarjas</h2>
 
   <form method="GET" class="row g-3 mb-4">
     <div class="col-md-3">
-      <label>Fecha</label>
-      <input type="date" name="fecha" class="form-control" required>
+      <label style="font-weight: bold;color:white;">Fecha</label>
+      <input type="date" name="fecha" class="form-control" required value="<?= isset($_GET['fecha']) ? htmlspecialchars($_GET['fecha']) : '' ?>">
     </div>
     <div class="col-md-3">
-      <label>Programa</label>
+      <label style="font-weight: bold;color:white;">Programa</label>
       <select name="programa" class="form-select">
         <option value="">Todos</option>
         <?php
         $res = $conn->query("SELECT programa_id, descripcion_programa FROM programa");
         while ($row = $res->fetch_assoc()):
+          $selected = (isset($_GET['programa']) && $_GET['programa'] == $row['programa_id']) ? 'selected' : '';
         ?>
-          <option value="<?= $row['programa_id'] ?>"><?= $row['descripcion_programa'] ?></option>
+          <option value="<?= $row['programa_id'] ?>" <?= $selected ?>><?= $row['descripcion_programa'] ?></option>
         <?php endwhile; ?>
       </select>
     </div>
     <div class="col-md-3">
-      <label>Área</label>
+      <label style="font-weight: bold;color:white;">Área</label>
       <select name="area" class="form-select">
         <option value="">Todas</option>
         <?php
         $res = $conn->query("SELECT area_id, descripcion_area FROM area");
         while ($row = $res->fetch_assoc()):
+          $selected = (isset($_GET['area']) && $_GET['area'] == $row['area_id']) ? 'selected' : '';
         ?>
-          <option value="<?= $row['area_id'] ?>"><?= $row['descripcion_area'] ?></option>
+          <option value="<?= $row['area_id'] ?>" <?= $selected ?>><?= $row['descripcion_area'] ?></option>
         <?php endwhile; ?>
       </select>
     </div>
     <div class="col-md-3">
-      <label>Labor</label>
+      <label style="font-weight: bold;color:white;">Labor</label>
       <select name="labor" class="form-select">
         <option value="">Todas</option>
         <?php
         $res = $conn->query("SELECT labor_id, descripcion_labor FROM labor");
         while ($row = $res->fetch_assoc()):
+          $selected = (isset($_GET['labor']) && $_GET['labor'] == $row['labor_id']) ? 'selected' : '';
         ?>
-          <option value="<?= $row['labor_id'] ?>"><?= $row['descripcion_labor'] ?></option>
+          <option value="<?= $row['labor_id'] ?>" <?= $selected ?>><?= $row['descripcion_labor'] ?></option>
         <?php endwhile; ?>
       </select>
     </div>
@@ -60,9 +63,22 @@ include 'db.php';
       <table class="table table-bordered table-sm">
         <thead class="table-success">
           <tr>
-            <th>Programa</th><th>Área</th><th>Labor</th><th>Empleado</th>
-            <th>Normales</th><th>Extras</th><th>Tratos</th><th>Ausencias</th>
-            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+            <th rowspan="2">Programa</th>
+            <th rowspan="2">Área</th>
+            <th rowspan="2">Labor</th>
+            <th rowspan="2">Empleado</th>
+            <th rowspan="2">Normales</th>
+            <th rowspan="2">Extras</th>
+            <th rowspan="2">Tratos</th>
+            <th rowspan="2">Ausencias</th>
+            <th colspan="5">Centro Costo</th>
+          </tr>
+          <tr>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
           </tr>
         </thead>
         <tbody>
@@ -71,7 +87,7 @@ include 'db.php';
           // Ejemplo básico:
           $sql = "SELECT p.descripcion_programa AS programa, a.descripcion_area AS area, l.descripcion_labor AS labor,
               e.empleado_nombre AS empleado, t.tarjas_d_horas_normales AS horas_normales, t.tarjas_d_horas_extras AS horas_extras, 
-              t.tarjas_d_tratos AS tratos, t.tarjas_d_ausencia AS ausencia, l.cc1, l.cc2, l.cc3, l.cc4, l.cc5
+              t.tarjas_d_tratos AS tratos, (case when t.tarjas_d_ausencia=0 then 'NO APLICA' when t.tarjas_d_ausencia=1 then 'CON GOCE' when t.tarjas_d_ausencia=2 then 'SIN GOCE' end) AS ausencia, l.cc1, l.cc2, l.cc3, l.cc4, l.cc5
           FROM tarjas_detalle t
           JOIN programa p ON t.tarjas_d_programa = p.programa_id
           JOIN area a ON t.tarjas_d_area = a.area_id
@@ -79,16 +95,15 @@ include 'db.php';
           JOIN empleados e ON t.tarjas_d_empleado = e.empleado_id
           WHERE 1=1";
           if (!empty($_GET['fecha'])) $sql .= " AND t.tarjas_d_fecha = '" . $conn->real_escape_string($_GET['fecha']) . "'";
-          if (!empty($_GET['programa_id'])) $sql .= " AND p.programa_id = '" . $conn->real_escape_string($_GET['programa_id']) . "'";
-          if (!empty($_GET['area_id'])) $sql .= " AND a.area_id = " . intval($_GET['area_id']);
-          if (!empty($_GET['labor_id'])) $sql .= " AND l.labor_id = " . intval($_GET['labor_id']);
+          if (!empty($_GET['programa'])) $sql .= " AND p.programa_id = '" . $conn->real_escape_string($_GET['programa']) . "'";
+          if (!empty($_GET['area'])) $sql .= " AND a.area_id = " . intval($_GET['area']);
+          if (!empty($_GET['labor'])) $sql .= " AND l.labor_id = " . intval($_GET['labor']);
           $res = $conn->query($sql);
           $totales = ['normales' => 0, 'extras' => 0, 'tratos' => 0, 'ausencias' => 0];
           while ($r = $res->fetch_assoc()):
             $totales['normales'] += $r['horas_normales'];
             $totales['extras'] += $r['horas_extras'];
             $totales['tratos'] += $r['tratos'];
-            $totales['ausencias'] += $r['ausencia'];
           ?>
           <tr>
             <td><?= htmlspecialchars($r['programa']) ?></td>
@@ -109,8 +124,7 @@ include 'db.php';
             <td><?= $totales['normales'] ?></td>
             <td><?= $totales['extras'] ?></td>
             <td><?= $totales['tratos'] ?></td>
-            <td><?= $totales['ausencias'] ?></td>
-            <td colspan="5"></td>
+            <td colspan="6"></td>
           </tr>
         </tfoot>
       </table>
@@ -118,7 +132,6 @@ include 'db.php';
 
     <div class="d-flex justify-content-end gap-2 mt-3">
       <a href="export_reporte_excel.php?<?= http_build_query($_GET) ?>" class="btn btn-success">Exportar Excel</a>
-      <a href="export_reporte_pdf.php?<?= http_build_query($_GET) ?>" class="btn btn-danger">Exportar PDF</a>
     </div>
   <?php endif; ?>
 </div>

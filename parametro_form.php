@@ -27,21 +27,21 @@ if (isset($_GET['id'])) {
 ?>
 
 <div class="container mt-4">
-  <h2><?= $edit ? 'Editar' : 'Agregar' ?> Parámetro</h2>
+  <h2 style="font-weight: bold;color:white;"><?= $edit ? 'Editar' : 'Agregar' ?> Parámetro</h2>
   <form method="POST" action="parametro_save.php">
     <?php if ($edit): ?>
       <input type="hidden" name="original_clave" value="<?= htmlspecialchars($clave) ?>">
     <?php endif; ?>
     <div class="mb-3 col-md-3">
-      <label class="form-label">Clave</label>
+      <label class="form-label" style="font-weight: bold;color:white;">Clave</label>
       <input type="text" name="clave" class="form-control" required maxlength="50" value="<?= htmlspecialchars($clave) ?>" <?= $edit ? 'readonly' : '' ?>>
     </div>
     <div class="mb-3 col-md-2">
-      <label class="form-label">Valor</label>
+      <label class="form-label" style="font-weight: bold;color:white;">Valor</label>
       <input type="text" name="valor" class="form-control" required maxlength="100" value="<?= htmlspecialchars($valor) ?>">
     </div>
     <div class="mb-3 col-md-5">
-      <label class="form-label">Descripción</label>
+      <label class="form-label" style="font-weight: bold;color:white;">Descripción</label>
       <textarea name="descripcion" class="form-control"><?= htmlspecialchars($descripcion) ?></textarea>
     </div>
     <button type="submit" class="btn btn-success">Guardar</button>

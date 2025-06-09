@@ -15,7 +15,7 @@ $labor = $_GET['labor'] ?? '';
 // Consulta con filtros
 $sql = "SELECT p.descripcion_programa AS programa, a.descripcion_area AS area, l.descripcion_labor AS labor,
                 e.empleado_nombre AS empleado, t.tarjas_d_horas_normales AS horas_normales, t.tarjas_d_horas_extras AS horas_extras, 
-                t.tarjas_d_tratos AS tratos, t.tarjas_d_ausencia AS ausencia, l.cc1, l.cc2, l.cc3, l.cc4, l.cc5
+                t.tarjas_d_tratos AS tratos, (case when t.tarjas_d_ausencia=0 then 'NO APLICA' when t.tarjas_d_ausencia=1 then 'CON GOCE' when t.tarjas_d_ausencia=2 then 'SIN GOCE' end) AS ausencia, l.cc1, l.cc2, l.cc3, l.cc4, l.cc5
         FROM tarjas_detalle t
         JOIN programa p ON t.tarjas_d_programa = p.programa_id
         JOIN area a ON t.tarjas_d_area = a.area_id
@@ -35,7 +35,7 @@ $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
 // Encabezados
-$sheet->fromArray(['Programa', 'Área', 'Labor', 'Empleado', 'Normales', 'Extras', 'Tratos', 'Ausencia'], NULL, 'A1');
+$sheet->fromArray(['Programa', 'Área', 'Labor', 'Empleado', 'Normales', 'Extras', 'Tratos', 'Ausencia', 'Centro Costo 1', 'Centro Costo 2', 'Centro Costo 3', 'Centro Costo 4', 'Centro Costo 5'], NULL, 'A1');
 
 // Datos
 $row = 2;

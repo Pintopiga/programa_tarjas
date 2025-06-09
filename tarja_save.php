@@ -26,13 +26,13 @@ foreach ($horas_extras as $he) {
 }
 
 // Guardar cabecera si no existe
-$stmt = $conn->prepare("SELECT COUNT(*) as count FROM tarjas WHERE fecha = ? AND programa = ? AND area = ?");
+$stmt = $conn->prepare("SELECT COUNT(*) as count FROM tarjas WHERE tarjas_fecha = ? AND tarjas_programa = ? AND tarjas_area = ?");
 $stmt->bind_param("sss", $fecha, $programa, $area);
 $stmt->execute();
 $count = $stmt->get_result()->fetch_assoc()['count'];
 
 if ($count == 0) {
-    $stmt = $conn->prepare("INSERT INTO tarjas (fecha, programa, area) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO tarjas (tarjas_fecha, tarjas_programa, tarjas_area) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $fecha, $programa, $area);
     $stmt->execute();
 }
@@ -64,5 +64,5 @@ for ($i = 0; $i < count($empleados); $i++) {
     $stmt->execute();
 }
 
-header("Location: tarja_form.php?fecha=$fecha&programa=$programa&area=$area");
+header("Location: tarja_list.php");
 exit;

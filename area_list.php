@@ -1,5 +1,6 @@
 <?php 
 include 'auth.php';
+verificar_acceso('area');
 $title = 'Lista de Areas';
 include 'header.php';
 include 'navbar.php';

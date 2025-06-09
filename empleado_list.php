@@ -1,5 +1,6 @@
 <?php 
 include 'auth.php';
+verificar_acceso('area');
 $title = 'Lista de Empleados';
 include 'header.php';
 include 'navbar.php';
@@ -25,14 +26,14 @@ include 'db.php';
     </thead>
     <tbody>
       <?php
-        $result = $conn->query("SELECT * FROM empleados");
+        $result = $conn->query("SELECT * FROM empleados e INNER JOIN programa p ON e.empleado_programa=p.programa_id INNER JOIN area a ON e.empleado_area=a.area_id");
         while ($row = $result->fetch_assoc()):
       ?>
       <tr>
         <td><?= htmlspecialchars($row['empleado_id']) ?></td>
         <td><?= htmlspecialchars($row['empleado_nombre']) ?></td>
-        <td><?= htmlspecialchars($row['empleado_programa']) ?></td>
-        <td><?= htmlspecialchars($row['empleado_area']) ?></td>
+        <td><?= htmlspecialchars($row['descripcion_programa']) ?></td>
+        <td><?= htmlspecialchars($row['descripcion_area']) ?></td>
         <td>
           <a href="empleado_form.php?id=<?= urlencode($row['empleado_id']) ?>" class="btn btn-sm btn-warning">Editar</a>
           <a href="empleado_delete.php?id=<?= urlencode($row['empleado_id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar?')">Eliminar</a>
